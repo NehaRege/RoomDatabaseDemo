@@ -3,11 +3,13 @@ package com.example.roomdemo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.roomdemo.databinding.ActivityMainBinding
+import com.example.roomdemo.db.Subscriber
 import com.example.roomdemo.db.SubscriberDatabase
 import com.example.roomdemo.db.SubscriberRepository
 
@@ -43,7 +45,23 @@ class MainActivity : AppCompatActivity() {
     private fun displaySubscribersList() {
         subscriberViewModel.subscribers.observe(this, Observer {
             Log.i("111. ---", it.toString())
-            binding.subscriberRecyclerView.adapter = MyRecyclerViewAdapter(it)
+            binding.subscriberRecyclerView.adapter = MyRecyclerViewAdapter(
+                it,
+                { selectedItem: Subscriber -> listItemClick(selectedItem) }
+            )
         })
+    }
+
+    /*
+    When the user clicks on the list item, name and email should display in the input fields
+    and SAVE should change to UPDATE and CLEAR should change to DELETE
+     */
+    private fun listItemClick(subscriber: Subscriber) {
+        Toast.makeText(
+            this,
+            "Subscriber: name = " + subscriber.name, Toast.LENGTH_SHORT
+        ).show()
+
+        subscriberViewModel.initUpdateAndDelete(subscriber)
     }
 }
