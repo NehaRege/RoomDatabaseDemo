@@ -16,6 +16,11 @@ class SubscriberViewModel(
     private var isUpdateOrDelete = false
     private lateinit var subscriberToUpdateOrDelete: Subscriber
 
+    private val statusMessage = MutableLiveData<Event<String>>()
+    val message: MutableLiveData<Event<String>>
+        get() = statusMessage
+
+
     val inputName = MutableLiveData<String>()
     val inputEmail = MutableLiveData<String>()
 
@@ -55,21 +60,31 @@ class SubscriberViewModel(
 
     private fun insert(subscriber: Subscriber) = viewModelScope.launch(Dispatchers.IO) {
         repository.insertSubscriber(subscriber)
+        withContext(Dispatchers.Main) {
+            statusMessage.value = Event("Subscriber Inserted Successfully")
+        }
     }
 
     private fun update(subscriber: Subscriber) = viewModelScope.launch(Dispatchers.IO) {
         repository.updateSubscriber(subscriber)
+        withContext(Dispatchers.Main) {
+            statusMessage.value = Event("Subscriber Updated Successfully")
+        }
     }
 
     private fun delete(subscriber: Subscriber) = viewModelScope.launch(Dispatchers.IO) {
         repository.deleteSubscriber(subscriber)
         withContext(Dispatchers.Main) {
             resetToInitialValues()
+            statusMessage.value = Event("Subscriber Deleted Successfully")
         }
     }
 
     private fun clearAll() = viewModelScope.launch(Dispatchers.IO) {
         repository.deleteAll()
+        withContext(Dispatchers.Main) {
+            statusMessage.value = Event("All Subscribers Deleted Successfully")
+        }
     }
 
     fun initUpdateAndDelete(subscriber: Subscriber) {

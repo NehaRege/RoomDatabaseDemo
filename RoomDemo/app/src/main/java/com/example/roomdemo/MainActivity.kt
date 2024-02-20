@@ -35,6 +35,12 @@ class MainActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
 
         initRecyclerView()
+
+        subscriberViewModel.message.observe(this) {
+            it.getContentIfNotHandled()?.let { statusMessage ->
+                Toast.makeText(this, statusMessage, Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun initRecyclerView() {
@@ -57,11 +63,6 @@ class MainActivity : AppCompatActivity() {
     and SAVE should change to UPDATE and CLEAR should change to DELETE
      */
     private fun listItemClick(subscriber: Subscriber) {
-        Toast.makeText(
-            this,
-            "Subscriber: name = " + subscriber.name, Toast.LENGTH_SHORT
-        ).show()
-
         subscriberViewModel.initUpdateAndDelete(subscriber)
     }
 }
