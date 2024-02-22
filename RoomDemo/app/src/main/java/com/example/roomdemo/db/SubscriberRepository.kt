@@ -12,19 +12,19 @@ class SubscriberRepository(
      */
     val subscribers = dao.getAllSubscribers()
 
-    suspend fun insertSubscriber(subscriber: Subscriber) {
-        dao.insertSubscriber(subscriber)
+    suspend fun insertSubscriber(subscriber: Subscriber): Long {
+        return dao.insertSubscriber(subscriber)
     }
 
-    suspend fun updateSubscriber(subscriber: Subscriber) {
-        dao.updateSubscriber(subscriber)
+    suspend fun updateSubscriber(subscriber: Subscriber): Int {
+        return dao.updateSubscriber(subscriber)
     }
 
     suspend fun deleteSubscriber(subscriber: Subscriber): Int {
         return dao.deleteSubscriber(subscriber)
     }
 
-    suspend fun deleteAll() {
-        dao.deleteAll()
+    suspend fun deleteAll(): Int {
+        return dao.deleteAll()
     }
 }

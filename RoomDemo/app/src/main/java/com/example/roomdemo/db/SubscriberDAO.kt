@@ -14,7 +14,7 @@ interface SubscriberDAO {
     suspend fun insertSubscriber(subscriber: Subscriber): Long // <-- Return the inserted row ID
 
     @Update
-    suspend fun updateSubscriber(subscriber: Subscriber)
+    suspend fun updateSubscriber(subscriber: Subscriber): Int
 
     @Delete
     suspend fun deleteSubscriber(subscriber: Subscriber): Int
